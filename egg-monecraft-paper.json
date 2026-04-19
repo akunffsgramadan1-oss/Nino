@@ -1,0 +1,52 @@
+{
+    "_comment": "Egg Minecraft Paper 1.21 oleh Nino",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-04-18T10:27:00+07:00",
+    "name": "PaperMC",
+    "author": "akunffs",
+    "description": "PaperMC adalah server Minecraft high performance.",
+    "features": null,
+    "docker_images": {
+        "Java 21": "ghcr.io/pterodactyl/yolks:java_21"
+    },
+    "file_denylist": [],
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": {
+            "server.properties": {
+                "parser": "properties",
+                "find": {
+                    "server-ip": "0.0.0.0",
+                    "server-port": "{{server.build.default.port}}",
+                    "query.port": "{{server.build.default.port}}"
+                }
+            }
+        },
+        "startup": {
+            "done": "Done"
+        },
+        "logs": {},
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/bash\r\ncurl -sSL -o ${SERVER_JARFILE} https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/132/downloads/paper-1.21.1-132.jar",
+            "container": "ghcr.io/pterodactyl/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Server Jar File",
+            "description": "Nama file jar server yang dipakai.",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
